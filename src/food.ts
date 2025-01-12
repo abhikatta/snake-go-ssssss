@@ -1,4 +1,4 @@
-const foods = {
+export const foods = {
   small: { value: 1, rarity: 1, color: "#dedede" },
   medium: { value: 3, rarity: 0.6, color: "green" },
   large: { value: 5, rarity: 0.2, color: "red" },
