@@ -29,7 +29,7 @@ const snake = new Snake(canvas);
 const score = new Score();
 const foodItem = new Food(canvas, snake, score);
 window.addEventListener("keydown", (event: KeyboardEvent) => {
-  const [newDirection, errorMessage] = ChangeDirection(direction, event);
+  const [newDirection] = ChangeDirection(direction, event);
 
   // TODO:  message.innerText = errorMessage;
   direction = newDirection;

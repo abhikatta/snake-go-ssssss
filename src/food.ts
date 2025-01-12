@@ -44,21 +44,17 @@ export class Food {
   }
 
   spawnFoodItem() {
+    if (this.foodTimeout) {
+      clearInterval(this.foodTimeout);
+      this.foodTimeout = null;
+      this.foodItem = null;
+    }
     this.createNewFoodItem();
-
     if (this.foodItem) {
       this.foodTimeout = setTimeout(() => {
-        if (this.isEaten()) {
-          return null;
-        } else {
-          this.unspawnFoodItem(false);
-          this.spawnFoodItem();
-        }
+        this.foodItem = null;
+        this.spawnFoodItem();
       }, this.foodItem?.lifetime * 1000);
-    }
-    if (this.foodTimeout) {
-      clearTimeout(this.foodTimeout);
-      this.foodTimeout = null;
     }
   }
 
@@ -93,13 +89,18 @@ export class Food {
         this.unspawnFoodItem(true);
         return true;
       }
+      return false;
     }
     return false;
   }
 
   unspawnFoodItem(isAlreadyEaten: boolean) {
+    if (this.foodTimeout) {
+      clearTimeout(this.foodTimeout);
+      this.foodTimeout = null;
+    }
+    this.foodItem = null;
     if (isAlreadyEaten) {
-      this.foodItem = null;
       this.spawnFoodItem();
     }
   }
