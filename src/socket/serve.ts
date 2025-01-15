@@ -1,8 +1,9 @@
 import { newSnake } from "../game/main";
-import { Snake } from "../game/snake";
+
 import { getSnakeColor } from "../lib/SnakeColor";
 import { SnakeData } from "../types";
 const webSocket = new WebSocket("wss://spicy-maddening-relative.glitch.me/");
+
 webSocket.onopen = () => {
   console.log("WebSocket connection established");
 };
@@ -10,17 +11,17 @@ webSocket.onopen = () => {
 webSocket.onmessage = (event: MessageEvent<any>) => {
   const snakeData = JSON.parse(event.data) as SnakeData;
 
-  console.log(snakeData);
-
   if (snakeData.color !== getSnakeColor()) {
-    newSnake.direction = snakeData.direction;
+    newSnake.centerX = snakeData.x;
+    newSnake.centerY = snakeData.y;
     newSnake.snakeColor = snakeData.color;
+    newSnake.direction = snakeData.direction;
   }
 };
 
-export const sendSnakeDirection = async (snake: Snake) => {
+export const sendSnakeDirection = async (snake: SnakeData) => {
   if (webSocket.readyState === webSocket.OPEN) {
-    const snakeData = JSON.stringify(snake.getSnakeData());
+    const snakeData = JSON.stringify(snake);
     webSocket.send(snakeData);
   }
 };

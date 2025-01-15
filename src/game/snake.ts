@@ -1,5 +1,3 @@
-// TODO: update snake direction to not to change by 180deg directly
-
 import { getSnakeColor } from "../lib/SnakeColor";
 import { sendSnakeDirection } from "../socket/serve";
 import { Direction, snakeColorType, SnakeData } from "../types";
@@ -76,17 +74,16 @@ export class Snake extends Score {
 
     this.detectWallCollision();
 
-    await sendSnakeDirection(this);
+    await sendSnakeDirection(this.getSnakeData());
   }
 
   getSnakeData(): SnakeData {
-    const snakeData = {
+    return {
       color: this.snakeColor,
       x: this.centerX,
       y: this.centerY,
       direction: this.direction,
       score: this.score,
     };
-    return snakeData;
   }
 }

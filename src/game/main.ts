@@ -7,7 +7,7 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./data";
 // import { Score } from "./score";
 // import { Food } from "./food";
 import { GetHighestScore } from "../lib/HighScore";
-import { selectColor } from "../lib/SnakeColor";
+import { getSnakeColor, selectColor } from "../lib/SnakeColor";
 
 const app = document.getElementById("app")!;
 export const canvas = document.createElement("canvas");
@@ -53,10 +53,11 @@ const initializeGame = () => {
   const ctx = canvas.getContext("2d");
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    snake.drawSnake(direction);
+    if (newSnake.snakeColor !== getSnakeColor()) {
+      newSnake.drawSnake(newSnake.direction);
+    }
   }
-  //   foodItem.drawFood();
-  snake.drawSnake(direction);
-  //   scoreElement.innerText = `${snake.getScore()}`;
 
   requestAnimationFrame(initializeGame);
 };
