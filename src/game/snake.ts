@@ -1,34 +1,41 @@
 // TODO: update snake direction to not to change by 180deg directly
 
-import { Direction } from "./types";
+import { getSnakeColor } from "../lib/SnakeColor";
+import { sendSnakeDirection } from "../socket/serve";
+import { Direction, snakeColorType, SnakeData } from "../types";
+import { Score } from "./score";
 
-export class Snake {
-  centerX = 0;
-  centerY = 0;
-
+export class Snake extends Score {
   //   snakeProps
-  size = { length: 50, width: 50 };
+  private size = { length: 50, width: 50 };
+  snakeColor: snakeColorType = "gray";
 
   // static
-  worldWidth = window.innerWidth - 100;
-  worldHeight = window.innerHeight - 100;
-  canvas: HTMLCanvasElement | null = null;
-  ctx: CanvasRenderingContext2D | null = null;
+  private worldWidth = window.innerWidth - 100;
+  private worldHeight = window.innerHeight - 100;
+  private ctx: CanvasRenderingContext2D | null = null;
 
   // physics
   direction: Direction = { x: 0, y: 0 };
-  velocity = 0.4;
-  displacement = this.velocity * 10;
+  private velocity = 0.4;
+  private displacement = this.velocity * 10;
+
+  centerX = 0;
+  centerY = 0;
+  canvas: HTMLCanvasElement | null = null;
+
   constructor(canvas: HTMLCanvasElement) {
+    super();
     this.centerX = canvas.width / 2;
     this.centerY = canvas.height / 2;
     this.ctx = canvas.getContext("2d");
     this.worldHeight = canvas.height;
     this.worldWidth = canvas.width;
     this.canvas = canvas;
+    this.snakeColor = getSnakeColor();
   }
 
-  detectWallCollision() {
+  private detectWallCollision() {
     if (this.centerX > this.worldWidth) {
       this.centerX = this.centerX - this.worldWidth;
     }
@@ -53,19 +60,33 @@ export class Snake {
         this.size.width,
         14
       );
-      this.ctx.fillStyle = "red";
+      this.ctx.fillStyle = this.snakeColor;
       this.ctx.fill();
       this.ctx.stroke();
       this.ctx.closePath();
     }
+
     this.moveSnake(direction);
   }
 
-  moveSnake(direction: Direction) {
+  async moveSnake(direction: Direction) {
     this.direction = direction;
     this.centerX += this.displacement * this.direction.x * this.velocity;
     this.centerY += this.displacement * this.direction.y * this.velocity;
 
     this.detectWallCollision();
+
+    await sendSnakeDirection(this);
+  }
+
+  getSnakeData(): SnakeData {
+    const snakeData = {
+      color: this.snakeColor,
+      x: this.centerX,
+      y: this.centerY,
+      direction: this.direction,
+      score: this.score,
+    };
+    return snakeData;
   }
 }

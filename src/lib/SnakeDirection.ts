@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from "../data";
+import { ERROR_MESSAGE } from "../game/data";
 import { Direction } from "../types";
 
 export const ChangeDirection = (

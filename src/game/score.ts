@@ -1,4 +1,4 @@
-import { GetHighestScore, SetHighestScore } from "./lib/HighScore";
+import { GetHighestScore, SetHighestScore } from "../lib/HighScore";
 
 export class Score {
   score = 0;

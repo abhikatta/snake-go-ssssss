@@ -1,4 +1,4 @@
-import { FoodItem, Rarity } from "./types";
+import { Rarity, FoodItem } from "../types";
 
 export const CANVAS_WIDTH = window.innerWidth - 100;
 export const CANVAS_HEIGHT = window.innerHeight - 200;
