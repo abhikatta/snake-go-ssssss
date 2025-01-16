@@ -10,7 +10,7 @@ import { FoodItem, Rarity } from "../types";
 // 2. after a said time, the food vanishes
 // 3. as rarity increases, food spawn and lifetime decrease // TODO
 
-export class Food extends Snake {
+export class Food {
   foodItemCenterX = 0;
   foodItemCenterY = 0;
   canvasWidth = CANVAS_WIDTH;
@@ -22,7 +22,6 @@ export class Food extends Snake {
   foodTimeout: any | null = null;
 
   constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
     this.ctx = canvas.getContext("2d");
   }
 
@@ -73,22 +72,22 @@ export class Food extends Snake {
   }
 
   isEaten(): boolean {
-    if (this.score && this.foodItem) {
-      const snakePosition = { x: this.centerX, y: this.centerY };
-      const foodPosition = {
-        x: this.foodItemCenterX,
-        y: this.foodItemCenterY,
-      };
-      if (
-        this.foodItem &&
-        Math.abs(snakePosition.x - foodPosition.x) <= this.foodItemSize.width &&
-        Math.abs(snakePosition.y - foodPosition.y) <= this.foodItemSize.height
-      ) {
-        this.increaseScore(this.foodItem.value);
-        this.unspawnFoodItem(true);
-        return true;
-      }
-    }
+    // if (this.foodItem) {
+    //   const snakePosition = { x: this.centerX, y: this.centerY };
+    //   const foodPosition = {
+    //     x: this.foodItemCenterX,
+    //     y: this.foodItemCenterY,
+    //   };
+    //   if (
+    //     this.foodItem &&
+    //     Math.abs(snakePosition.x - foodPosition.x) <= this.foodItemSize.width &&
+    //     Math.abs(snakePosition.y - foodPosition.y) <= this.foodItemSize.height
+    //   ) {
+    //     this.increaseScore(this.foodItem.value);
+    //     this.unspawnFoodItem(true);
+    //     return true;
+    //   }
+    // }
     return false;
   }
 

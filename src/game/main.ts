@@ -30,7 +30,7 @@ export const snake = new Snake(canvas);
 
 export const newSnake = new Snake(canvas);
 
-const foodItem = new Food(canvas);
+export const foodItem = new Food(canvas);
 
 window.addEventListener("keydown", (event: KeyboardEvent) => {
   const [newDirection] = ChangeDirection(direction, event);

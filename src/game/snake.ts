@@ -1,7 +1,8 @@
 import { getSnakeColor } from "../lib/SnakeColor";
 import { sendSnakeDirection } from "../socket/clientSocket";
-import { Direction, snakeColorType, SnakeData } from "../types";
+import { Direction, FoodItem, snakeColorType, SnakeData } from "../types";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./data";
+import { Food } from "./food";
 import { Score } from "./score";
 
 export class Snake extends Score {
@@ -9,6 +10,10 @@ export class Snake extends Score {
   private size = { length: 50, width: 50 };
   snakeColor: snakeColorType = "gray";
 
+  foodItem: FoodItem | null = null;
+  foodItemCenterX: number | null = null;
+  foodItemCenterY: number | null = null;
+  foodItemSize: { width: number; height: number } | null = null;
   // static
   private worldWidth = CANVAS_WIDTH;
   private worldHeight = CANVAS_HEIGHT;
@@ -53,8 +58,8 @@ export class Snake extends Score {
     if (this.ctx) {
       this.ctx.beginPath();
       this.ctx.roundRect(
-        (this.centerX += this.displacement * this.direction.x * this.velocity),
-        (this.centerY += this.displacement * this.direction.y * this.velocity),
+        (this.centerX += this.displacement * this.direction?.x * this.velocity),
+        (this.centerY += this.displacement * this.direction?.y * this.velocity),
         this.size.length,
         this.size.width,
         14
@@ -70,12 +75,48 @@ export class Snake extends Score {
 
   async moveSnake(direction: Direction) {
     this.direction = direction;
-    this.centerX += this.displacement * this.direction.x * this.velocity;
-    this.centerY += this.displacement * this.direction.y * this.velocity;
+    this.centerX += this.displacement * this.direction?.x * this.velocity;
+    this.centerY += this.displacement * this.direction?.y * this.velocity;
 
     this.detectWallCollision();
+    this.isEaten();
 
     await sendSnakeDirection(this.getSnakeData());
+  }
+  updateFoodItem(
+    foodItemCenterX: number,
+    foodItemCenterY: number,
+    foodItemSize: { width: number; height: number },
+    foodItem: FoodItem
+  ) {
+    this.foodItem = foodItem;
+    this.foodItemCenterX = foodItemCenterX;
+    this.foodItemCenterY = foodItemCenterY;
+    this.foodItemSize = foodItemSize;
+    this.foodItem = foodItem;
+  }
+
+  isEaten(): boolean {
+    if (this.foodItem) {
+      const snakePosition = { x: this.centerX, y: this.centerY };
+      const foodPosition = {
+        x: this.foodItemCenterX,
+        y: this.foodItemCenterY,
+      };
+      if (
+        this.foodItem &&
+        foodPosition.x &&
+        foodPosition.y &&
+        this.foodItemSize &&
+        Math.abs(snakePosition.x - foodPosition.x) <= this.foodItemSize.width &&
+        Math.abs(snakePosition.y - foodPosition.y) <= this.foodItemSize.height
+      ) {
+        this.increaseScore(this.foodItem.value);
+        // this.unspawnFoodItem(true);
+        return true;
+      }
+    }
+    return false;
   }
 
   getSnakeData(): SnakeData {
