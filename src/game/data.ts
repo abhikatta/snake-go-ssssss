@@ -1,7 +1,7 @@
 import { Rarity, FoodItem } from "../types";
 
-export const CANVAS_WIDTH = window.innerWidth - 100;
-export const CANVAS_HEIGHT = window.innerHeight - 200;
+export const CANVAS_WIDTH = 700;
+export const CANVAS_HEIGHT = 600;
 
 export const ERROR_MESSAGE =
   "Bruhhh, do you want the snake to do a backflip or something??";

@@ -1,6 +1,7 @@
 import { getSnakeColor } from "../lib/SnakeColor";
-import { sendSnakeDirection } from "../socket/serve";
+import { sendSnakeDirection } from "../socket/clientSocket";
 import { Direction, snakeColorType, SnakeData } from "../types";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./data";
 import { Score } from "./score";
 
 export class Snake extends Score {
@@ -9,9 +10,9 @@ export class Snake extends Score {
   snakeColor: snakeColorType = "gray";
 
   // static
-  private worldWidth = window.innerWidth - 100;
-  private worldHeight = window.innerHeight - 100;
-  private ctx: CanvasRenderingContext2D | null = null;
+  private worldWidth = CANVAS_WIDTH;
+  private worldHeight = CANVAS_HEIGHT;
+  ctx: CanvasRenderingContext2D | null = null;
 
   // physics
   direction: Direction = { x: 0, y: 0 };

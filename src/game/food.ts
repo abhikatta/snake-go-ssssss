@@ -1,5 +1,4 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH, foods, RarityValues } from "./data";
-import { Score } from "./score";
 import { Snake } from "./snake";
 import { FoodItem, Rarity } from "../types";
 
@@ -11,23 +10,20 @@ import { FoodItem, Rarity } from "../types";
 // 2. after a said time, the food vanishes
 // 3. as rarity increases, food spawn and lifetime decrease // TODO
 
-export class Food {
+export class Food extends Snake {
   foodItemCenterX = 0;
   foodItemCenterY = 0;
   canvasWidth = CANVAS_WIDTH;
   canvasHeight = CANVAS_HEIGHT;
   ctx: CanvasRenderingContext2D | null = null;
-  worldWidth = window.innerWidth - 100;
-  worldHeight = window.innerHeight - 100;
+
   foodItemSize = { height: 50, width: 50 };
   foodItem: FoodItem | null = null;
   foodTimeout: any | null = null;
-  score: Score | null = null;
-  snakes: Snake[] | null = null;
-  constructor(canvas: HTMLCanvasElement, snakes: Snake[], score: Score) {
+
+  constructor(canvas: HTMLCanvasElement) {
+    super(canvas);
     this.ctx = canvas.getContext("2d");
-    this.score = score;
-    this.snakes = snakes;
   }
 
   createNewFoodItem() {
@@ -77,24 +73,21 @@ export class Food {
   }
 
   isEaten(): boolean {
-    if (this.snakes && this.snakes?.length > 0 && this.score && this.foodItem) {
-      this.snakes.forEach((snake) => {
-        const snakePosition = { x: snake.centerX, y: snake.centerY };
-        const foodPosition = {
-          x: this.foodItemCenterX,
-          y: this.foodItemCenterY,
-        };
-        if (
-          this.foodItem &&
-          Math.abs(snakePosition.x - foodPosition.x) <=
-            this.foodItemSize.width &&
-          Math.abs(snakePosition.y - foodPosition.y) <= this.foodItemSize.height
-        ) {
-          snake.increaseScore(this.foodItem.value);
-          this.unspawnFoodItem(true);
-          return true;
-        }
-      });
+    if (this.score && this.foodItem) {
+      const snakePosition = { x: this.centerX, y: this.centerY };
+      const foodPosition = {
+        x: this.foodItemCenterX,
+        y: this.foodItemCenterY,
+      };
+      if (
+        this.foodItem &&
+        Math.abs(snakePosition.x - foodPosition.x) <= this.foodItemSize.width &&
+        Math.abs(snakePosition.y - foodPosition.y) <= this.foodItemSize.height
+      ) {
+        this.increaseScore(this.foodItem.value);
+        this.unspawnFoodItem(true);
+        return true;
+      }
     }
     return false;
   }

@@ -2,7 +2,7 @@ import { newSnake } from "../game/main";
 
 import { getSnakeColor } from "../lib/SnakeColor";
 import { SnakeData } from "../types";
-const webSocket = new WebSocket("wss://spicy-maddening-relative.glitch.me/");
+const webSocket = new WebSocket("ws://localhost:3000");
 
 webSocket.onopen = () => {
   console.log("WebSocket connection established");

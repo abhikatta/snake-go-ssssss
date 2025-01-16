@@ -4,8 +4,8 @@ import { ChangeDirection } from "../lib/SnakeDirection";
 import { Snake } from "./snake";
 import { Direction } from "../types";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./data";
-// import { Score } from "./score";
-// import { Food } from "./food";
+import { Score } from "./score";
+import { Food } from "./food";
 import { GetHighestScore } from "../lib/HighScore";
 import { getSnakeColor, selectColor } from "../lib/SnakeColor";
 
@@ -26,12 +26,11 @@ canvas.height = CANVAS_HEIGHT;
 
 let direction: Direction = { x: 0, y: 0 };
 
-const snake = new Snake(canvas);
+export const snake = new Snake(canvas);
 
 export const newSnake = new Snake(canvas);
 
-// const score = new Score();
-// const foodItem = new Food(canvas, snake, score);
+const foodItem = new Food(canvas);
 
 window.addEventListener("keydown", (event: KeyboardEvent) => {
   const [newDirection] = ChangeDirection(direction, event);
@@ -39,7 +38,7 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-  //   foodItem.spawnFoodItem();
+  foodItem.spawnFoodItem();
   snake.drawSnake(direction);
 
   highScoreElement.innerText = `Highest score: ${GetHighestScore()}`;
@@ -54,6 +53,7 @@ const initializeGame = () => {
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     snake.drawSnake(direction);
+    foodItem.spawnFoodItem();
     if (newSnake.snakeColor !== getSnakeColor()) {
       newSnake.drawSnake(newSnake.direction);
     }
