@@ -2,7 +2,7 @@ import { foodItem, newSnake, snake } from "../game/main";
 
 import { getSnakeColor } from "../lib/SnakeColor";
 import { SnakeData } from "../types";
-const webSocket = new WebSocket("ws://localhost:3000");
+const webSocket = new WebSocket(import.meta.env.VITE_API_URL);
 
 webSocket.onopen = () => {
   console.log("WebSocket connection established");
