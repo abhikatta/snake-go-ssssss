@@ -2,7 +2,7 @@ import { getSnakeColor } from "../lib/SnakeColor";
 import { sendSnakeDirection } from "../socket/clientSocket";
 import { Direction, FoodItem, snakeColorType, SnakeData } from "../types";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./data";
-import { Food } from "./food";
+// import { Food } from "./food";
 import { Score } from "./score";
 
 export class Snake extends Score {

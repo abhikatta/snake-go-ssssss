@@ -1,5 +1,5 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH, foods, RarityValues } from "./data";
-import { Snake } from "./snake";
+// import { Snake } from "./snake";
 import { FoodItem, Rarity } from "../types";
 
 // this is the entire food context, not just an item that will be destroyed after the snake eats it, should be

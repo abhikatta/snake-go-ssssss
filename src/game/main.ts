@@ -4,7 +4,7 @@ import { ChangeDirection } from "../lib/SnakeDirection";
 import { Snake } from "./snake";
 import { Direction } from "../types";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./data";
-import { Score } from "./score";
+// import { Score } from "./score";
 import { Food } from "./food";
 import { GetHighestScore } from "../lib/HighScore";
 import { getSnakeColor, selectColor } from "../lib/SnakeColor";
