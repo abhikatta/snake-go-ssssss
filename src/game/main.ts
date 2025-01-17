@@ -27,9 +27,7 @@ canvas.height = CANVAS_HEIGHT;
 let direction: Direction = { x: 0, y: 0 };
 
 export const snake = new Snake(canvas);
-
 export const newSnake = new Snake(canvas);
-
 export const foodItem = new Food(canvas);
 
 window.addEventListener("keydown", (event: KeyboardEvent) => {
