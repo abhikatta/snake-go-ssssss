@@ -45,24 +45,16 @@ window.addEventListener("DOMContentLoaded", () => {
 if (colorSelector) {
   colorSelector.addEventListener("change", selectColor);
 }
-const fps = 60;
-const frameInterval = 1000 / fps;
-let lastFrameTime = 0;
 
-const initializeGame = (timestamp: number) => {
+const initializeGame = () => {
   const ctx = canvas.getContext("2d");
 
-  const deltaTime = timestamp - lastFrameTime;
-
-  if (deltaTime >= frameInterval) {
-    lastFrameTime = timestamp;
-    if (ctx) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      snake.drawSnake(direction);
-      foodItem.drawFood();
-      if (newSnake.snakeColor !== getSnakeColor()) {
-        newSnake.drawSnake(newSnake.direction);
-      }
+  if (ctx) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    snake.drawSnake(direction);
+    foodItem.drawFood();
+    if (newSnake.snakeColor !== getSnakeColor()) {
+      newSnake.drawSnake(newSnake.direction);
     }
 
     const currentTime = Date.now();
