@@ -14,3 +14,5 @@ export const foods: { [key in Rarity]: FoodItem } = {
   large: { value: 5, rarity: 0.2, color: "yellow", lifetime: 5 },
   epic: { value: 15, rarity: 0.08, color: "purple", lifetime: 3 },
 };
+
+export const DEFAULT_SNAKE_COLOR = "gray";

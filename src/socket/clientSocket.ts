@@ -20,25 +20,28 @@ webSocket.onmessage = (event: MessageEvent<any>) => {
 
   foodItem.drawFood();
 
-  const snakeData = JSON.parse(data.snakeData);
+  const snakeData = data.snakeData;
   if (snakeData.color !== getSnakeColor()) {
     newSnake.centerX = snakeData.x;
     newSnake.centerY = snakeData.y;
     newSnake.snakeColor = snakeData.color;
     newSnake.direction = snakeData.direction;
-    snake.updateFoodItem(
-      foodData.foodItem,
-      foodData.foodItemCenterX,
-      foodData.foodItemCenterY,
-      foodData.foodItemSize
-    );
-    newSnake.updateFoodItem(
-      foodData.foodItem,
-      foodData.foodItemCenterX,
-      foodData.foodItemCenterY,
-      foodData.foodItemSize
-    );
+    newSnake.score = snakeData.score;
   }
+
+  snake.score = snakeData.score;
+  snake.updateFoodItem(
+    foodData.foodItem,
+    foodData.foodItemCenterX,
+    foodData.foodItemCenterY,
+    foodData.foodItemSize
+  );
+  newSnake.updateFoodItem(
+    foodData.foodItem,
+    foodData.foodItemCenterX,
+    foodData.foodItemCenterY,
+    foodData.foodItemSize
+  );
 };
 
 export const sendSnakeDirection = async (snake: SnakeData) => {

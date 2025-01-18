@@ -1,14 +1,14 @@
 import { getSnakeColor } from "../lib/SnakeColor";
 import { sendSnakeDirection } from "../socket/clientSocket";
 import { Direction, FoodItem, snakeColorType, SnakeData } from "../types";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./data";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, DEFAULT_SNAKE_COLOR } from "./data";
 // import { Food } from "./food";
 import { Score } from "./score";
 
 export class Snake extends Score {
   //   snakeProps
   private size = { length: 50, width: 50 };
-  snakeColor: snakeColorType = "gray";
+  snakeColor: snakeColorType = DEFAULT_SNAKE_COLOR;
 
   foodItem: FoodItem | null = null;
   foodItemCenterX: number | null = null;
@@ -21,7 +21,7 @@ export class Snake extends Score {
 
   // physics
   direction: Direction = { x: 0, y: 0 };
-  private velocity = 0.4;
+  private velocity = 0.5;
   private displacement = this.velocity * 10;
 
   centerX = 0;
